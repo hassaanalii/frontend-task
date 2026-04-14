@@ -11,7 +11,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className="flex w-[350px] shrink-0 flex-col text-white shadow-lg"
+      className="flex w-[350px] shrink-0 flex-col text-white"
       aria-label="Main navigation"
     >
       <div className="shrink-0 pl-8 py-10">

@@ -8,7 +8,7 @@ export default function AppShell({ children }) {
 
       <div className="flex min-w-0 flex-1 flex-col">
         <AppHeader />
-        <main className="min-h-0 flex-1 overflow-auto p-6">{children}</main>
+        <main className="min-h-0 flex-1 overflow-auto p-12">{children}</main>
       </div>
     </div>
   );
