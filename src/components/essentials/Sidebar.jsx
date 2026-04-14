@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useSidebarNav } from "@/components/navigation/SidebarNavContext";
 import { sidebarLogoutItem, sidebarNavItems } from "@/data/sidebarData";
 import { NavIcon } from "@/icons/sidebarIcons";
 
 export default function Sidebar() {
-  const [activeId, setActiveId] = useState("dashboard");
+  const { activeNavId, setActiveNavId } = useSidebarNav();
 
   return (
     <aside
@@ -32,16 +32,16 @@ export default function Sidebar() {
         >
           <ul className="flex flex-col gap-4 pt-16 ">
             {sidebarNavItems.map((item) => {
-              const isActive = activeId === item.id;
+              const isActive = activeNavId === item.id;
               const isDashboard = item.id === "dashboard";
 
               function handleNavClick(e) {
                 if (isDashboard) {
-                  setActiveId("dashboard");
+                  setActiveNavId("dashboard");
                   return;
                 }
                 e.preventDefault();
-                setActiveId(item.id);
+                setActiveNavId(item.id);
                 window.history.replaceState(null, "", "/#");
               }
 

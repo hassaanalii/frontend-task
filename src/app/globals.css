@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+/* Shared surface hover + motion for card-like UI */
+@utility card-surface {
+  @apply transition-all duration-200 ease-out;
+}
+
+@utility card-surface-hover {
+  @apply hover:-translate-y-0.5 hover:shadow-md;
+}
 
 @theme {
   --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
