@@ -1,8 +1,11 @@
-import { getProjects } from "@/lib/projects";
+"use client";
+
 import ProjectTestListClient from "./ProjectTestListClient";
 
-export default async function ProjectTestList({ className = "" }) {
-  const projects = await getProjects();
+export default function ProjectTestList({ projects, className = "" }) {
+  if (!projects?.length) {
+    return <p className="text-sm text-neutral-500">No projects.</p>;
+  }
 
   return (
     <div

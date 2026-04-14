@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useProjectSelection } from "@/components/dashboard/ProjectSelection/ProjectSelectionContext";
 import ProjectTestCard from "@/components/ui/ProjectTestCard";
 
 export default function ProjectTestListClient({ projects }) {
-  const [selectedId, setSelectedId] = useState(projects[0]?.id ?? null);
+  const { selectedId, openProjectModal } = useProjectSelection();
 
   if (!projects.length) {
     return <p className="text-sm text-neutral-500">No projects.</p>;
@@ -19,7 +19,7 @@ export default function ProjectTestListClient({ projects }) {
             <ProjectTestCard
               project={p}
               selected={selected}
-              onSelect={() => setSelectedId(p.id)}
+              onSelect={() => openProjectModal(p.id)}
             />
           </li>
         );
