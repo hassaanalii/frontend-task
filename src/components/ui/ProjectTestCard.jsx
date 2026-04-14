@@ -6,7 +6,7 @@ export default function ProjectTestCard({ project, selected, onSelect }) {
       type="button"
       onClick={onSelect}
       className={[
-        "group flex w-full flex-col gap-2 rounded-2xl border-2 bg-[#F0F0F0] p-6 text-left cursor-pointer",
+        "group flex w-full flex-col gap-2 rounded-2xl border-2 bg-[#F0F0F0] p-4 text-left cursor-pointer xl:p-6",
         "transition-[box-shadow,border-color,background-color] duration-300 ease-out",
         "hover:shadow-[0_12px_40px_-10px_rgba(25,112,211,0.45)]",
         selected
@@ -24,11 +24,11 @@ export default function ProjectTestCard({ project, selected, onSelect }) {
             className="object-cover"
           />
         </span>
-        <span className="min-w-0 flex-1 text-[23px] font-black text-[#1970D3] transition-colors duration-300 group-hover:text-[#0d5bb8]">
+        <span className="min-w-0 flex-1 text-lg font-black text-[#1970D3] transition-colors duration-300 group-hover:text-[#0d5bb8] xl:text-[23px]">
           {project.title}
         </span>
       </span>
-      <span className="block w-full text-[16px] leading-snug font-semibold text-neutral-400 transition-colors duration-300 group-hover:text-neutral-600">
+      <span className="block w-full text-sm leading-snug font-semibold text-neutral-400 transition-colors duration-300 group-hover:text-neutral-600 xl:text-[16px]">
         {project.description}
       </span>
     </button>

@@ -10,7 +10,7 @@ export default function RankingCard({ user }) {
     <li>
       <div
         className={[
-          "group flex cursor-pointer items-center gap-3 rounded-[22px] border-2 border-transparent bg-white px-6 py-3 shadow-sm",
+          "group flex cursor-pointer items-center gap-2 rounded-[22px] border-2 border-transparent bg-white px-4 py-2.5 shadow-sm xl:gap-3 xl:px-6 xl:py-3",
           "transition-[box-shadow,background-color,border-color] duration-300 ease-out",
           "hover:border-[#0346A8]/35 hover:bg-[#e8f2ff] hover:shadow-[0_12px_40px_-10px_rgba(3,70,168,0.45)]",
         ].join(" ")}

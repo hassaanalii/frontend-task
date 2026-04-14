@@ -9,7 +9,7 @@ export default function ProjectTestList({ projects, className = "" }) {
 
   return (
     <div
-      className={`project-test-list-scroll flex min-h-0 flex-col overflow-y-auto pr-10 ${className}`}
+      className={`project-test-list-scroll flex flex-col pr-4 max-xl:max-h-none max-xl:overflow-visible xl:max-h-none xl:min-h-0 xl:flex-1 xl:overflow-y-auto xl:pr-10 ${className}`}
     >
       <ProjectTestListClient projects={projects} />
     </div>

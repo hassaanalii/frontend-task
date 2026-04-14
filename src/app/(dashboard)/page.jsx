@@ -10,7 +10,7 @@ export default async function DashboardPage() {
   const projects = await getProjects();
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-hidden">
+    <div className="flex flex-col gap-4 overflow-visible xl:min-h-0 xl:flex-1 xl:gap-6 xl:overflow-hidden">
       <div className="shrink-0">
         <ProgressSection
           minXp={XP_PROGRESS_DEFAULTS.minXp}
@@ -19,11 +19,14 @@ export default async function DashboardPage() {
         />
       </div>
       <ProjectSelectionBoundary projects={projects}>
-        <div className="grid min-h-0 flex-1 grid-cols-1 gap-6 overflow-hidden lg:grid-cols-[6fr_4fr] lg:items-stretch">
-          <div className="flex min-h-0 flex-col gap-4">
-            <ProjectTestList projects={projects} className="min-h-0 flex-1" />
+        <div className="grid grid-cols-1 gap-4 overflow-visible xl:min-h-0 xl:flex-1 xl:grid-cols-[6fr_4fr] xl:items-stretch xl:gap-6 xl:overflow-hidden">
+          <div className="flex flex-col gap-4 max-xl:min-h-0 xl:min-h-0">
+            <ProjectTestList
+              projects={projects}
+              className="max-xl:flex-none xl:min-h-0 xl:flex-1"
+            />
           </div>
-          <LeaderboardPanel className="min-h-0" />
+          <LeaderboardPanel className="max-xl:min-h-0 xl:min-h-0" />
         </div>
         <EditorPanel />
       </ProjectSelectionBoundary>

@@ -61,7 +61,7 @@ export default function EditorPanel({ className = "" }) {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity ease-out ${className}`}
+      className={`fixed inset-0 z-50 flex items-center justify-center p-3 transition-opacity ease-out sm:p-4 xl:p-4 ${className}`}
       style={{
         transitionDuration: `${PANEL_MS}ms`,
         opacity: enter ? 1 : 0,
@@ -76,7 +76,7 @@ export default function EditorPanel({ className = "" }) {
         onClick={closeProjectModal}
       />
       <section
-        className="pointer-events-auto relative z-10 flex max-h-[min(90vh,520px)] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white px-5 py-4 shadow-lg transition-transform ease-out"
+        className="pointer-events-auto relative z-10 flex max-h-[min(90vh,520px)] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white px-4 py-4 shadow-lg transition-transform ease-out sm:px-5 xl:px-5"
         style={{
           transitionDuration: `${PANEL_MS}ms`,
           transform: enter ? "scale(1)" : "scale(0.96)",
