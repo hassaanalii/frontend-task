@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useLayoutEffect, useState } from "react";
+import ProjectNotes from "@/components/dashboard/ProjectNotes/ProjectNotes";
 import { useProjectSelection } from "@/components/dashboard/ProjectSelection/ProjectSelectionContext";
 
 const PANEL_MS = 220;
@@ -76,7 +77,7 @@ export default function EditorPanel({ className = "" }) {
         onClick={closeProjectModal}
       />
       <section
-        className="pointer-events-auto relative z-10 flex max-h-[min(90vh,520px)] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white px-4 py-4 shadow-lg transition-transform ease-out sm:px-5 xl:px-5"
+        className="pointer-events-auto relative z-10 flex max-h-[min(92vh,720px)] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white px-4 py-4 shadow-lg transition-transform ease-out sm:px-5 xl:px-5"
         style={{
           transitionDuration: `${PANEL_MS}ms`,
           transform: enter ? "scale(1)" : "scale(0.96)",
@@ -102,24 +103,27 @@ export default function EditorPanel({ className = "" }) {
             ×
           </button>
         </div>
-        <div className="flex min-h-0 flex-col gap-4 overflow-y-auto sm:flex-row sm:items-start">
-          <span className="relative mx-auto size-24 shrink-0 overflow-hidden rounded-full bg-neutral-200 sm:mx-0">
-            <Image
-              src={selectedProject.imageUrl || "/user.jpg"}
-              alt=""
-              fill
-              sizes="96px"
-              className="object-cover"
-            />
-          </span>
-          <div className="min-w-0 flex-1">
-            <p className="text-lg font-bold text-[#1970D3]">
-              {selectedProject.title}
-            </p>
-            <p className="mt-2 text-sm leading-relaxed text-neutral-600">
-              {selectedProject.description}
-            </p>
+        <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+            <span className="relative mx-auto size-24 shrink-0 overflow-hidden rounded-full bg-neutral-200 sm:mx-0">
+              <Image
+                src={selectedProject.imageUrl || "/user.jpg"}
+                alt=""
+                fill
+                sizes="96px"
+                className="object-cover"
+              />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="text-lg font-bold text-[#1970D3]">
+                {selectedProject.title}
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-neutral-600">
+                {selectedProject.description}
+              </p>
+            </div>
           </div>
+          <ProjectNotes projectId={selectedProject.id} />
         </div>
       </section>
     </div>

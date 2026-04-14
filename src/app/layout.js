@@ -1,4 +1,5 @@
 import { Nunito } from "next/font/google";
+import ToasterHost from "@/components/ui/ToasterHost";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -16,6 +17,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${nunito.variable} min-h-full antialiased xl:h-full`}>
       <body className="flex min-h-[100dvh] flex-col overflow-x-hidden overflow-y-auto font-sans xl:h-full xl:max-h-[100dvh] xl:overflow-hidden">
         {children}
+        <ToasterHost />
       </body>
     </html>
   );
