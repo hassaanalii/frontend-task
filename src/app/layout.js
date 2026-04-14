@@ -14,7 +14,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${nunito.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-0 flex h-full flex-col overflow-hidden font-sans">
+        {children}
+      </body>
     </html>
   );
 }

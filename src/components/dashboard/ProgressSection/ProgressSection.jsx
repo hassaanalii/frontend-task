@@ -16,7 +16,7 @@ export default function ProgressSection({
 }) {
   return (
     <section
-      className="overflow-hidden rounded-[1rem] bg-gradient-to-r from-[#CDE6FF] to-[#1970D3] px-4 shadow-[0_12px_40px_-8px_rgba(25,112,211,0.45)] md:px-8 "
+      className="overflow-hidden rounded-[1rem] bg-gradient-to-r from-[#CDE6FF] to-[#1970D3] px-4 md:px-8 "
       aria-label="XP progress"
     >
       <div className="flex flex-col items-stretch gap-6 md:flex-row md:items-center md:gap-6 lg:gap-8">

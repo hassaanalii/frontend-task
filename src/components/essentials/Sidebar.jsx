@@ -11,7 +11,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className="flex w-[350px] shrink-0 flex-col text-white"
+      className="flex h-full min-h-0 w-[350px] shrink-0 flex-col overflow-hidden text-white"
       aria-label="Main navigation"
     >
       <div className="shrink-0 pl-8 py-10">
@@ -26,7 +26,10 @@ export default function Sidebar() {
       </div>
 
       <div className="flex min-h-0 flex-1 flex-col rounded-tr-[60px] bg-gradient-to-b from-primary to-primary/95 px-5 pb-6 pt-1">
-        <nav className="flex flex-1 flex-col gap-1" aria-label="Sidebar">
+        <nav
+          className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto pr-1"
+          aria-label="Sidebar"
+        >
           <ul className="flex flex-col gap-4 pt-16 ">
             {sidebarNavItems.map((item) => {
               const isActive = activeId === item.id;

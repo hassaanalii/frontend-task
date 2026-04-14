@@ -5,3 +5,55 @@
   --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
   --color-primary: #0056d2;
 }
+
+/* Project list — scrollbar (thumb #0084d1, track #f0f0f0, rounded) */
+.project-test-list-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #0084d1 #f0f0f0;
+}
+
+.project-test-list-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.project-test-list-scroll::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 9999px;
+}
+
+.project-test-list-scroll::-webkit-scrollbar-thumb {
+  background: #0084d1;
+  border-radius: 9999px;
+  border: 2px solid #f0f0f0;
+}
+
+.project-test-list-scroll::-webkit-scrollbar-button:single-button:vertical:decrement,
+.project-test-list-scroll::-webkit-scrollbar-button:single-button:vertical:increment {
+  display: block;
+  height: 12px;
+  width: 10px;
+  background-color: #0084d1;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 8px 6px;
+}
+
+.project-test-list-scroll::-webkit-scrollbar-button:single-button:vertical:decrement {
+  border-radius: 6px 6px 0 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%23ffffff' d='M6 0L12 8H0z'/%3E%3C/svg%3E");
+}
+
+.project-test-list-scroll::-webkit-scrollbar-button:single-button:vertical:increment {
+  border-radius: 0 0 6px 6px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%23ffffff' d='M0 0h12L6 8z'/%3E%3C/svg%3E");
+}
+
+/* Scrollable region with scrollbar hidden (e.g. leaderboard list) */
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
