@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# frontend-task
 
-## Getting Started
+Next.js 16 (App Router) dashboard UI: sidebar navigation, project list with detail modal, leaderboard, XP progress, and per-project notes. Styling uses Tailwind CSS v4 and the Nunito font.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Component structure
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+High-level layout: **`RootLayout`** → **`(dashboard)/layout`** wraps **`AppShell`**, which composes **`Sidebar`**, **`AppHeader`**, and **`main`** (dashboard page content).
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+| Area | Path | Role |
+|------|------|------|
+| **App shell** | `src/components/AppShell.jsx` | Wraps the app in **`SidebarNavProvider`** and **`SidebarDrawerProvider`**, places sidebar + header + scrollable main. |
+| **Essentials** | `src/components/essentials/` | **`Sidebar`**, **`AppHeader`**, **`MobileNavToggle`** (hamburger for `< xl`). |
+| **Navigation** | `src/components/navigation/` | **`SidebarNavContext`**, **`SidebarDrawerContext`** — client providers only (no UI). |
+| **Dashboard** | `src/components/dashboard/` | Feature folders: **`EditorPanel`**, **`ProjectTestList`** (+ **`ProjectTestListClient`**), **`LeaderboardPanel`** (+ **`LeaderboardPanelClient`**), **`ProgressSection`**, **`ProjectSelection`**, **`ProjectNotes`**. |
+| **UI** | `src/components/ui/` | Reusable widgets: **`ProjectTestCard`**, **`RankingCard`**, **`XpProgressBar`**, **`ToasterHost`**. |
+| **Utilities** | `src/util/leaderboard/` | Leaderboard-specific presentational pieces (**`RankCircle`**, **`Stars`**, etc.) used by **`RankingCard`**. |
+| **Data / icons** | `src/data/`, `src/icons/` | Static config (**`sidebarData.js`**, **`xpProgressDefaults.js`**) and **`sidebarIcons.jsx`**. |
+| **App routes** | `src/app/` | **`layout.js`**, **`globals.css`**, **`(dashboard)/page.jsx`**, **`api/**`**. |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Server vs client:** Pages and panels such as **`LeaderboardPanel`** and **`(dashboard)/page`** are async Server Components where possible. Interactive pieces are marked **`"use client"`** (e.g. **`Sidebar`**, **`EditorPanel`**, **`ProjectTestList`**, **`ProjectNotes`**, context providers).
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## State management approach
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+There is **no global store** (no Redux/Zustand). State is **React `useState` + Context** where cross-component coordination is needed.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **`ProjectSelectionContext`** (`ProjectSelectionBoundary` / `ProjectSelectionContext.jsx`)  
+   - Holds **`projects`** (from the server page), **`selectedId`**, **`selectedProject`**, **`isEditorOpen`**, and actions **`openProjectModal`**, **`closeProjectModal`**, **`selectProjectById`**.  
+   - Used by **`ProjectTestListClient`**, **`EditorPanel`**, and **`ProjectNotes`** (via **`projectId`** from selection).
 
-## Deploy on Vercel
+2. **`SidebarNavContext`** (`SidebarNavContext.jsx`)  
+   - **`activeNavId`** and **`setActiveNavId`** for sidebar item highlighting.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **`SidebarDrawerContext`** (`SidebarDrawerContext.jsx`)  
+   - Mobile (`< xl`): **`isOpen`**, **`open`**, **`close`**, **`toggle`** for the sliding sidebar; body scroll lock and Escape handling live here.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. **Local UI state**  
+   - Examples: editor modal mount/enter animation (**`EditorPanel`**), notes textarea and fetch lifecycle (**`ProjectNotes`**), **`XpProgressBar`** display percentage.
+
+**Data loading:** Initial **projects** and **leaderboard** rows are loaded on the **server** via **`getProjects()`** / **`getLeaderboard()`** in **`src/lib/`** and passed as props. **Notes** are loaded and submitted from the **client** with **`fetch`** to the notes API (see below).
+
+---
+
+## API integration
+
+Routes live under **`src/app/api/`**. Shared mock logic lives in **`src/lib/`** so Server Components and route handlers stay aligned.
+
+| Endpoint | Handler | Data source | Used by |
+|----------|---------|-------------|---------|
+| **`GET /api/projects`** | `app/api/projects/route.js` | **`getProjects()`** → `lib/projects.js` | Could be used for client refetch; dashboard page calls **`getProjects()`** directly on the server. |
+| **`GET /api/leaderboard`** | `app/api/leaderboard/route.js` | **`getLeaderboard()`** → `lib/leaderboard.js` | Same pattern as projects. |
+| **`GET /api/projects/[projectId]/notes`** | `app/api/projects/[projectId]/notes/route.js` | **`getNotesForProject()`** → `lib/notes.js` | **`ProjectNotes`** on load / refresh. |
+| **`POST /api/projects/[projectId]/notes`** | Same file | **`addNoteToProject()`** → `lib/notes.js` | **`ProjectNotes`** submit; body JSON **`{ "body": string }`**. |
+
+**Notes storage:** `lib/notes.js` keeps an **in-memory `Map`** per project ID (survives for the life of the Node process). Replace with a database for production.
+
+**Feedback:** Successful note save triggers **`toast.success`** via **Sonner**; errors use **`toast.error`**. **`ToasterHost`** is mounted in **`src/app/layout.js`**.
+
+---
+
+## Scripts
+
+- **`npm run dev`** — development server  
+- **`npm run build`** — production build  
+- **`npm run start`** — production server  
+- **`npm run lint`** — ESLint  
